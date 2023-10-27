@@ -650,7 +650,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
         BigDecimal val = this.thisRow.getValue(columnIndex - 1, this.bigDecimalValueFactory);
         if (val != null && field.getDecimals() > 0) {
             // 100.00这类数值，直接返回100
-            return val.stripTrailingZeros();
+            return new BigDecimal(val.stripTrailingZeros().toPlainString());
         }
         return val;
     }
@@ -1202,7 +1202,8 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
                     try {
                         if (field.getDecimals() > 0) {
                             // 100.00这类数值，直接返回100
-                            return new BigDecimal(stringVal).stripTrailingZeros().toPlainString();
+                            return new BigDecimal(
+                                    new BigDecimal(stringVal).stripTrailingZeros().toPlainString());
                         }
                         return new BigDecimal(stringVal);
                     } catch (NumberFormatException ex) {
