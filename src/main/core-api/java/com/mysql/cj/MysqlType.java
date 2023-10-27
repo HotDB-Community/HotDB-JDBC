@@ -360,6 +360,7 @@ public enum MysqlType implements SQLType {
      * Protocol: FIELD_TYPE_LONG_BLOB = 251
      */
     LONGBLOB("LONGBLOB", Types.LONGVARBINARY, null, 0, MysqlType.IS_NOT_DECIMAL, 4294967295L, ""),
+    // 这里Types改为CLOB对象以便mybatis自动映射时调用getObject方法
     /**
      * LONGTEXT [CHARACTER SET charset_name] [COLLATE collation_name]
      * A TEXT column with a maximum length of 4,294,967,295 or 4GB (232 - 1) characters. The effective

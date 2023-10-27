@@ -649,6 +649,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
         Field field = this.columnDefinition.getFields()[columnIndexMinusOne];
         BigDecimal val = this.thisRow.getValue(columnIndex - 1, this.bigDecimalValueFactory);
         if (val != null && field.getDecimals() > 0) {
+            // 100.00这类数值，直接返回100
             return val.stripTrailingZeros();
         }
         return val;
@@ -1200,6 +1201,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
 
                     try {
                         if (field.getDecimals() > 0) {
+                            // 100.00这类数值，直接返回100
                             return new BigDecimal(stringVal).stripTrailingZeros().toPlainString();
                         }
                         return new BigDecimal(stringVal);
@@ -1229,6 +1231,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
             case MEDIUMTEXT:
             case LONGTEXT:
                 if (field.getLength() == MysqlType.LONGTEXT.getPrecision()) {
+                    // CLOB会转成MySQL的LONGTEXT，Mybatis读取时返回CLOB对象
                     return getClob(columnIndex);
                 }
             case JSON:
